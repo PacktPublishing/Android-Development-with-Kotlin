@@ -1,0 +1,51 @@
+general:
+  artifacts:
+    - "app/build/reports/androidTests/connected"
+
+machine:
+  java:
+    version: oraclejdk8
+  python:
+    version: 2.7.10
+  environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    TEST_FLAGS: "--configure-on-demand -PdisablePreDex"
+    TERM: "dumb"
+    ADB_INSTALL_TIMEOUT: "10"
+
+dependencies:
+  pre:
+    - if [ ! -e /usr/local/android-sdk-linux/build-tools/26.0.0 ]; then echo y | android update sdk --all --no-ui --filter "build-tools-26.0.0"; fi;
+    - if [ ! -e /usr/local/android-sdk-linux/platforms/android-26 ]; then echo y | android update sdk --all --no-ui --filter "android-26"; fi;
+    - if ! $(grep -q "Revision=44.0.0" /usr/local/android-sdk-linux/extras/android/m2repository/source.properties); then echo y | android update sdk --all --no-ui --filter "extra-android-m2repository"; fi;
+  cache_directories:
+    - /usr/local/android-sdk-linux/build-tools/26.0.0
+    - /usr/local/android-sdk-linux/platforms/android-26
+    - /usr/local/android-sdk-linux/extras/android/m2repository
+
+test:
+  override:
+    - ./gradlew assembleDebug -PdisablePreDex
+  post:
+    - bash <(curl -s https://codecov.io/bash)
+
+deployment:
+  espresso:
+    branch: master
+    commands:
+      - emulator -avd circleci-android22 -no-audio -no-window:
+          background: true
+          parallel: true
+      # wait for it to have booted
+      - circle-android wait-for-boot
+      # unlock the emulator screen
+      - sleep 30
+      - adb shell input keyevent 82
+      # execute tests on emulator
+      - ./gradlew connectedCheck
+      # Create coverage report
+      - ./gradlew jacocoTestReport
+      # copy the build outputs to artifacts
+      - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+      # copy the test results to the test results directory.
+      - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS

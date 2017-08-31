@@ -1,0 +1,28 @@
+<com.sample.marvelgallery.view.views.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="@dimen/element_padding">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:shadowColor="#111"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/standard_text_size"
+        tools:text="Some name" />
+</com.sample.marvelgallery.view.views.SquareFrameLayout>

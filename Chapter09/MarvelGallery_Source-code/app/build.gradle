@@ -1,0 +1,111 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "com.sample.marvelgallery"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        if (System.getenv().containsKey("IS_CI_JOB")) {
+            buildConfigField("String", "PUBLIC_KEY", "\"" + System.getenv("CI_PUBLIC_KEY") + "\"")
+            buildConfigField("String", "PRIVATE_KEY", "\"" + System.getenv("CI_PRIVATE_KEY") + "\"")
+        } else {
+            buildConfigField("String", "PUBLIC_KEY", "\"${marvelPublicKey}\"")
+            buildConfigField("String", "PRIVATE_KEY", "\"${marvelPrivateKey}\"")
+        }
+    }
+    androidExtensions {
+        experimental = true
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "com.android.support:appcompat-v7:$android_support_version"
+    implementation "com.android.support:design:$android_support_version"
+    implementation "com.android.support:recyclerview-v7:$android_support_version"
+
+    // Glide - used for image loading
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+    // RxAndroid
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // Retrofit
+    implementation (["com.squareup.retrofit2:retrofit:$retrofit_version",
+             "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version",
+             "com.squareup.retrofit2:converter-gson:$retrofit_version",
+             "com.squareup.okhttp3:okhttp:$okhttp_version",
+             "com.squareup.okhttp3:logging-interceptor:$okhttp_version"])
+
+    // Espresso
+    androidTestImplementation ("com.android.support.test.espresso:espresso-core:$espresso_version", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
+
+    // JUnit
+    testImplementation "junit:junit:$junit_version"
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest', overwrite: true) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="character_header_height">240dp</dimen>
+    <dimen name="standard_text_size">20sp</dimen>
+    <dimen name="character_description_padding">10dp</dimen>
+    <dimen name="element_padding">10dp</dimen>
+</resources>
