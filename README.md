@@ -6,7 +6,7 @@ The book is divided in three modules that show the power of Kotlin and teach you
 All of the code is organized into folders. Each folder starts with a number followed by the application name. For example, Chapter02.
 * This code bundle does not have code files for chapter 4, 6, 7, and 8. They will be added shortly.
 * The source code for the Android application developed in chapter 9 is provided in the folder of chapter 9. 
-* The color images of the screenshot present in chapter 9 is provided in the folder of the chapter.
+* The color images of the screenshots present in chapter 9 is provided in the folder of the chapter.
 
 The code will look like the following:
 ```
