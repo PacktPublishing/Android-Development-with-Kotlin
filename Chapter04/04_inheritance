@@ -1,0 +1,6 @@
+open class Plant 
+class Tree : Plant()
+	
+fun main(args: Array<String>) {
+	Tree()
+}
