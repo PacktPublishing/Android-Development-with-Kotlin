@@ -4,7 +4,6 @@ This is the code repository for [Android Development with Kotlin](https://www.pa
 The book is divided in three modules that show the power of Kotlin and teach you how to use it properly. Each module present features in different levels of advancement. The first module covers Kotlin basics. This module will lay a firm foundation for the rest of the chapters so you are able to read and understand most of the Kotlin code. The next module dives deeper into the building blocks of Kotlin, such as functions, classes, and function types. You will learn how Kotlin brings many improvements to the table by improving common Java concepts and decreasing code verbosity. The last module presents features that are not present in Java. You will learn how certain tasks can be achieved in simpler ways thanks to Kotlin.
 ## Instructions and Navigation
 All of the code is organized into folders. Each folder starts with a number followed by the application name. For example, Chapter02.
-* This code bundle does not have code files for chapter 4, 6, 7, and 8. They will be added shortly.
 * The source code for the Android application developed in chapter 9 is provided in the folder of chapter 9. 
 * The color images of the screenshots present in chapter 9 is provided in the folder of the chapter.
 
