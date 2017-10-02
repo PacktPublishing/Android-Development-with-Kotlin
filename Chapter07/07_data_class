@@ -1,0 +1,24 @@
+    data class Student( 
+       val name: String, 
+       val grade: Double, 
+       val passing: Boolean 
+    ) 
+ 
+    val students = listOf( 
+       Student("John", 4.2, true), 
+       Student("Bill", 3.5, true), 
+       Student("John", 3.2, false), 
+       Student("Aron", 4.3, true), 
+       Student("Jimmy", 3.1, true) 
+    ) 
+ 
+    val bestStudents = students.filter { it.passing }
+       .withIndex() 
+       .sortedBy { it.value.grade } 
+       .take(3)  
+       .sortedBy { it.index } 
+       .map { it.value }
+
+fun main(args: Array<String>) {
+	println(bestStudents.map { it.name })
+}
