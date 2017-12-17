@@ -23,5 +23,3 @@ To test and use the code presented in this book, you need only Android Studio in
 
 * [Learning Android Application Development](https://www.packtpub.com/application-development/learning-android-application-development?utm_source=github&utm_medium=repository&utm_campaign=9781785286117)
 
-### Suggestions and Feedback
-[Click here](https://docs.google.com/forms/d/e/1FAIpQLSe5qwunkGf6PUvzPirPDtuy1Du5Rlzew23UBp2S-P3wB-GcwQ/viewform) if you have any feedback or suggestions.
