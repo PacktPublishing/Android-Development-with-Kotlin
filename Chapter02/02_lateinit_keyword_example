@@ -1,0 +1,14 @@
+/**
+* Example to demonstrate lateinit keyword
+*/
+ 
+// variable that we shall initialize at a later point in code
+lateinit var person1:Person
+ 
+fun main(args: Array<String>) {
+    // initializing variable lately
+    person1 = Person("Ted",28)
+    print(person1.name + " is " + person1.age.toString())
+}
+ 
+data class Person(var name:String, var age:Int);
